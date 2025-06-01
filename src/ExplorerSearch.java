@@ -33,29 +33,62 @@ public class ExplorerSearch {
         // Please also make more test cases
         // I STRONGLY RECOMMEND testing some helpers you might make too
 
+        int[] start = explorerLocator(island);
+        boolean[][] visited = new boolean[island.length][island[0].length];
+        return reachableArea(island, start, visited);
 
-
-
-
-
-        return -1;
     }//end reachableArea
+
+    public static int reachableArea(int[][] island, int[] current, boolean[][] visited) {
+        int r = current[0];
+        int c = current[1];
+
+        if (r < 0 || r >= island.length || c < 0 || c >= island[0].length) return 0;
+        if (visited[r][c]) return 0;
+        if (island[r][c] != 0 && island[r][c] != 1) return 0;
+
+        visited[r][c] = true;
+        int count = 1; 
+
+        //counting possibleMoves
+        List<int[]> neighbors = possibleMoves(island, current);
+
+        for (int[] neighbor : neighbors) {
+
+            count += reachableArea(island, neighbor, visited);
+
+        }//end for
+
+        return count;
+
+    }//end reachableAreaHelper
 
 
     public static int[] explorerLocator(int[][] island) {
+
+        int count = 0;
+        int[] start = null;
 
         for (int r = 0; r < island.length; r++) {
             for (int c = 0; c < island[r].length; c++) {
 
                 if (island[r][c] == 0) {
 
-                    return new int[]{r, c};
+                    count++;
 
+                    if (count == 1) {
+
+                        start = new int[]{r, c};
+
+                    }//end if       
                 }//end if
             }//end inner for
         }//end outer for
 
-        throw new IllegalArgumentException("No starting location!");
+    if (count == 0) throw new IllegalArgumentException("No starting location!");
+    if (count > 1) throw new IllegalArgumentException("Multiple starting locations!");
+
+    return start;
         
     }//end explorerLocator
 
@@ -100,12 +133,6 @@ public class ExplorerSearch {
         return moves;
 
     }//end possible moves
-
-
-
-
-
-
 
 
 }//end file

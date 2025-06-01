@@ -7,6 +7,8 @@ import java.util.Set;
 import org.junit.Test;
 
 public class ExplorerSearchTest {
+
+//tests for explorerLocator
     @Test
     public void testReachableArea_someUnreachable() {
         int[][] island = {
@@ -22,7 +24,54 @@ public class ExplorerSearchTest {
 
     // Add more tests here!
     // Come up with varied cases
-    
+
+    @Test
+    public void testReachableAreaOopsAllMountains() {
+        int[][] island = {
+            {2, 2, 2},
+            {2, 2, 2},
+            {2, 2, 2}
+        };
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            ExplorerSearch.reachableArea(island);
+        });
+        assertEquals("No starting location!", exception.getMessage());
+    }
+
+    @Test
+    public void testReachableAreaStartOnBottom() {
+        int[][] island = {
+            {3, 1, 1},
+            {2, 2, 1},
+            {1, 0, 1}
+        };
+        int actual = ExplorerSearch.reachableArea(island);
+        assertEquals(6, actual);
+    }
+
+   @Test
+    public void testReachableAreaMultipleStartingLocations() {
+        int[][] island = {
+            {2, 2, 2},
+            {2, 0, 2},
+            {0, 2, 2}
+        };
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            ExplorerSearch.reachableArea(island);
+        });
+        assertEquals("Multiple starting locations!", exception.getMessage());
+    }
+
+    @Test
+    public void testReachableAreaOnlyDiagonalOpen() {
+    int[][] island = {
+        {0, 2},
+        {2, 1}
+        };
+        int actual = ExplorerSearch.reachableArea(island);
+        assertEquals(1, actual); 
+    }
+
 
 //tests for explorerLocator
     @Test
@@ -71,8 +120,8 @@ public class ExplorerSearchTest {
         assertArrayEquals(expected, ExplorerSearch.explorerLocator(island));
     }
 
+    
 //tests for possibleMoves
-
     @Test
     public void testPossibleMovesAllOkDirections() {
         int[][] island = {
