@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 
 public class ExplorerSearch {
 
@@ -58,6 +60,46 @@ public class ExplorerSearch {
     }//end explorerLocator
 
 
+    public static List<int[]> possibleMoves(int[][] island, int[] current) {
+
+        // 1 = yes go through, anything else is not walkable
+        
+        List<int[]> moves = new ArrayList<>();
+
+        int curR = current[0];
+        int curC = current[1];
+        
+        // check up
+        int newR = curR - 1;
+        int newC = curC;
+        if (newR >= 0 && island[newR][newC] == 1) {
+            moves.add(new int[]{newR, newC});
+        }
+
+        // check down
+        newR = curR + 1;
+        newC = curC;
+        if (newR < island.length && island[newR][newC] == 1) {
+            moves.add(new int[]{newR, newC});
+        }
+
+        // check left
+        newR = curR;
+        newC = curC - 1;
+        if (newC >= 0 && island[newR][newC] == 1) {
+            moves.add(new int[]{newR, newC});
+        }
+
+        // check right
+        newR = curR;
+        newC = curC + 1;
+        if (newC < island[newR].length && island[newR][newC] == 1) {
+            moves.add(new int[]{newR, newC});
+        }
+
+        return moves;
+
+    }//end possible moves
 
 
 
